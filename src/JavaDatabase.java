@@ -198,6 +198,55 @@ public class JavaDatabase
     }
   }
 
+  public boolean createAccount(String username, String password, String email, String phoneNumber, String type){
+    // db info
+    String dbName = "Multuber";
+    String tableName = "Users";
+    String[] columnNames = {"username","password", "email", "phoneNumber", "type"};
+    boolean accountExists = false;
+
+    ArrayList<ArrayList<String>> userTable = new ArrayList<ArrayList<String>>();
+    userTable = this.getData(tableName, columnNames);
+
+    //Looping through the DB Table, checking if accounts exist
+    int outLoop = 0;
+    do{
+      ArrayList<String> row = new ArrayList<String>();
+      row = userTable.get(outLoop);
+      if(row.get(0) == username){
+        accountExists = true;
+      }
+
+      outLoop++;
+    }while(userTable.size() > outLoop);
+
+    if(accountExists == false){
+      String dbQuery = "INSERT INTO Users VALUES (?,?,?,?,?)";
+      try
+      {
+        // prepare statement
+        PreparedStatement ps = myDbConn.prepareStatement(dbQuery);
+        // enter data into query
+        ps.setString(1, username);
+        ps.setString(2, password);
+        ps.setString(3, email);
+        ps.setString(4, phoneNumber);
+        ps.setInt(5, Type);
+        // execute the query
+        ps.executeUpdate();
+        System.out.println("Data inserted successfully");
+      }
+      catch (SQLException se)
+      {
+        System.out.println("Error inserting data");
+      }
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   public static void main(String[] args)
   {
     // db info
