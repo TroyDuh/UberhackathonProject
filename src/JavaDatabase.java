@@ -198,15 +198,19 @@ public class JavaDatabase
     }
   }
 
-  public boolean createAccount(String username, String password, String email, String phoneNumber, String type){
+  public boolean createAccount(String username, String password, String email, String phoneNumber, int type){
     // db info
     String dbName = "Multuber";
     String tableName = "Users";
     String[] columnNames = {"username","password", "email", "phoneNumber", "type"};
     boolean accountExists = false;
 
+    // connect to db
+    JavaDatabase objDb = new JavaDatabase(dbName);
+    Connection myDbConn = objDb.getDbConn();
+
     ArrayList<ArrayList<String>> userTable = new ArrayList<ArrayList<String>>();
-    userTable = this.getData(tableName, columnNames);
+    userTable = objDb.getData(tableName, columnNames);
 
     //Looping through the DB Table, checking if accounts exist
     int outLoop = 0;
@@ -231,7 +235,7 @@ public class JavaDatabase
         ps.setString(2, password);
         ps.setString(3, email);
         ps.setString(4, phoneNumber);
-        ps.setInt(5, Type);
+        ps.setInt(5, type);
         // execute the query
         ps.executeUpdate();
         System.out.println("Data inserted successfully");
