@@ -20,9 +20,16 @@ public class InstallDb
     objDb.createTable(newTable, dbName); 
     
     // creating a second table
-    //String myNewTable = "CREATE TABLE Cars2 (Name2 varchar(50),"
-      //+ "Price2 int, Color2 varchar(50) )";
-    //objDb.createTable(myNewTable, dbName); 
+    String newTable2 = "CREATE TABLE Destination (ID int, placeName varchar(50), "
+      + "xCord double, yCord double, district varchar(50),"
+      + " locationType varchar(50) )";
+    objDb.createTable(newTable2, dbName); 
+    
+    // creating a third table
+    String NewTable3 = "CREATE TABLE Start (ID int, placeName varchar(50), "
+      + "xCord double, yCord double, district varchar(50),"
+      + " locationType varchar(50) )";
+    objDb.createTable(NewTable3, dbName); 
         
   }
   
