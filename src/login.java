@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +37,7 @@ public final class login extends JFrame implements ActionListener
   private JButton closeButton;
   private JPanel closePanel;
   private JPanel PropertiesPanel;
+  private JComboBox<String> districtComboBox;
   ResultSet rs = null;
     
   public login()
@@ -49,6 +51,20 @@ public final class login extends JFrame implements ActionListener
     this.getContentPane().setBackground(Color.LIGHT_GRAY);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.setLayout(new BorderLayout());
+
+    // Creating the comboBox of options for the user to choose
+    String[] districsLocations = new String[]
+    {
+      "Kreuzberg",
+      "Mitte",
+      "Friedrichshain",
+      "Prenzlauer Berg",
+      "Neukölln",
+      "Charlottenburg",
+      "Friedrichshain-Kreuzberg",
+      "Pankow",
+      "Schöneberg",
+    };
         
     //For the Action Listener
         
@@ -58,6 +74,7 @@ public final class login extends JFrame implements ActionListener
     this.passwordField = new JTextField(15);
     this.loginButton = new JButton("Login");
     loginButton.addActionListener(this);
+    districtComboBox = new JComboBox<>(districsLocations);
     this.closeButton = new JButton("Close");
     closeButton.addActionListener(this);
     this.PropertiesPanel = new JPanel();
@@ -68,6 +85,8 @@ public final class login extends JFrame implements ActionListener
     PropertiesPanel.add(passwordLabel);
     PropertiesPanel.add(passwordField);
     PropertiesPanel.add(loginButton);
+    PropertiesPanel.add(new JLabel("District Location:"));
+    PropertiesPanel.add(districtComboBox);
     this.closePanel = new JPanel();
     closePanel.add(closeButton);
         
@@ -93,7 +112,7 @@ public final class login extends JFrame implements ActionListener
     // db info
     String dbName = "Multuber";
     String tableName = "Users";
-    String[] columnsNames = {"username","password"};
+    String[] columnNames = {"username","password", "email", "phoneNumber", "type"};
 
     // insert a query, to supply values later
     String dbQuery = "SELECT * FROM Users WHERE username = ? AND password = ?"; 
@@ -132,11 +151,11 @@ public final class login extends JFrame implements ActionListener
         if (AuthLog == true)
         {
           
-          //this.dispose();
+          this.dispose();
           
           System.out.println("Data updated successfully");
         
-          new AppGUI(dbName, tableName, columnsNames);
+          new AppGUI(dbName, tableName, columnNames);
         
         }
   
